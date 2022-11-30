@@ -1,73 +1,108 @@
-#include <assert.h>
+#include <stdint.h>
+#include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include <stdio.h>
+#define MAX_NAME 256
+#define TABLE_SIZE 10
 
-#include "hashtable.h"
-
-#define TABLE_SIZE 7
-#define NUM_INPUTS 7
-
-int hash(char *s)
-/* Note, this is a horrible hash function.  It's here for
-        instructional purposes */
+typedef struct
 {
-    return strlen(s) % TABLE_SIZE;
-}
+    char name[MAX_NAME];
+    int age;
+    //...add other stuff later,maybe
+} person;
 
-typedef struct entry
+person *hash_table[TABLE_SIZE];
+
+unsigned int hash(char *name)
 {
-    char *key;
-    int val;
-    struct entry *next;
-} entry;
-
-entry *table[TABLE_SIZE] = {NULL};
-
-void insert(char *s, int v)
-/* this insert is NOT checking for duplicates.  :/ */
-{
-    int h = hash(s);
-    entry *t = (entry *)malloc(sizeof(entry));
-
-    t->key = s;
-    t->val = v;
-    t->next = table[h];
-    table[h] = t;
-}
-
-void clean_table()
-{
-    entry *p, *q;
-    int i;
-
-    for (i = 0; i < TABLE_SIZE; ++i)
+    int length = strnlen(name, MAX_NAME);
+    unsigned int hash_value = 0;
+    for (int i = 0; i < length; i++)
     {
-        for (p = table[i]; p != NULL; p = q)
+        hash_value += name[i];
+        hash_value = (hash_value * name[i]) % TABLE_SIZE;
+    }
+    return hash_value;
+}
+
+void init_hash_table()
+{
+    for (int i = 0; i < TABLE_SIZE; i++)
+    {
+        hash_table[i] = NULL;
+    }
+}
+
+void print_table()
+{
+    for (int i = 0; i < TABLE_SIZE; i++)
+    {
+        if (hash_table[i] == NULL)
         {
-            q = p->next;
-            free(p);
+            printf("\t%i\t---\n", i);
         }
-    } // for each entry
-} // clean_table
-
-int search(const char *key, int *out_val)
-{
-    // Find the hash index into the table.
-    const int index = hash(key);
-
-    // Now do a linear search through the linked list.
-    for (struct entry *node = table[index]; node; node = node->next)
-    {
-        // If we find a node with a matching key:
-        if (strcmp(node->key, key) == 0)
+        else
         {
-            // Output the value and return 1 for success.
-            *out_val = node->val;
-            return 1;
+            printf("\t%i\t%s\n", i, hash_table[i]->name);
         }
     }
-    // We didn't find anything. Return 0 for failure.
+}
+
+bool hash_table_insert(person *p)
+{
+    if (p == NULL)
+        return false;
+    int index = hash(p->name);
+    if (hash_table[index] != NULL)
+    {
+        return false;
+    }
+    hash_table[index] = p;
+    return true;
+}
+
+person *hash_table_lookup(char *name)
+{
+    int index = hash(name);
+
+    if (hash_table[index] != NULL && strcmp(hash_table[index]->name, name) == 0)
+    {
+        return hash_table[index];
+    }
+    else
+    {
+        return NULL;
+    }
+}
+
+int main()
+{
+    init_hash_table();
+    print_table();
+
+    person jacob = {.name = "Jacob", .age = 256};
+    person allen = {.name = "Allen", .age = 27};
+    person maria = {.name = "Maria", .age = 17};
+
+    hash_table_insert(&jacob);
+    hash_table_insert(&allen);
+    hash_table_insert(&maria);
+
+    print_table();
+
+    person *tmp = hash_table_lookup("Maria");
+
+    if (tmp == NULL)
+    {
+        printf("Not found!\n");
+    }
+    else
+    {
+        printf("Found %s.\n", tmp->name);
+    }
+
     return 0;
 }
