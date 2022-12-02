@@ -24,7 +24,7 @@ int main()
 
     // create a hash data structure
     /* Choose initial capacity of 500 */
-    HashTable *ht = create_table(5000);
+    HashTable *ht = create_table(50000);
 
     char *filename = "LoginsAndPasswords.txt";
     FILE *fp;
@@ -64,32 +64,31 @@ int main()
 
     // take in login from user
 
-    char name[50];
-    char pass[50];
+    char name[25];
+    char pass[25];
     printf("\nLogin:");
     scanf("%s", &name);
-    printf("\nPassword:");
+    printf("Password:");
     scanf("%s", &pass);
 
-    printf(ht_search(ht, name));
     int count = 0;
-    while ((!strncmp(ht_search(ht, name), pass, sizeof(ht_search(ht, name))) == 0))
+
+    while (!(strncmp(ht_search(ht, name), pass, 6)) == 0)
     {
         if (count >= 2)
         {
             printf("\nExceeded 3 Attempts. Account is locked!");
             exit(0);
         }
-        printf("\nFailed login!");
+        printf("\nFailed login! Please re-enter ");
 
         time_t rawtime;
         struct tm *timeinfo;
 
         time(&rawtime);
         timeinfo = localtime(&rawtime);
-        printf("Current local time and date: %s", asctime(timeinfo));
 
-        fprintf(fptr, "\n%s Failed logged in %s", name, asctime(timeinfo));
+        fprintf(fptr, "\n%s failed to log in timestamp: %s", name, asctime(timeinfo));
 
         printf("\nPassword:");
         scanf("%s", &pass);
@@ -101,10 +100,8 @@ int main()
 
     time(&rawtime);
     timeinfo = localtime(&rawtime);
-    printf("Current local time and date: %s", asctime(timeinfo));
-
-    fprintf(fptr, "\n%s Succesfully logged in %s", name, asctime(timeinfo));
-    printf("\nSuccesful Login!");
+    fprintf(fptr, "\n%s succesfully logged in, timestamp : %s", name, asctime(timeinfo));
+    printf("\nSuccesfully Logged in!");
 
     fclose(fp);
 
