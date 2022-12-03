@@ -64,7 +64,7 @@ int main()
     IP = inet_ntoa(*((struct in_addr *)host_entry->h_addr_list[0])); // Convert into IP string
 
     // create a hash data structure
-    /* Choose initial capacity of 500 */
+    /* Choose initial capacity */
     HashTable *ht = create_table(CAPACITY);
 
     char *filename = "LoginsAndPasswords.txt";
@@ -78,7 +78,6 @@ int main()
     int num;
     FILE *fptr;
 
-    // use appropriate location if you are using MacOS or Linux
     fptr = fopen("signIn.txt", "w");
 
     if (fptr == NULL)
@@ -111,6 +110,7 @@ int main()
     printf("\nLogin:");
     scanf("%s", name);
 
+    // have user retry login username if it is not found in hashtable
     while (ht_search(ht, name) == NULL)
     {
         printf("\nusername is not in our records, try again:");
@@ -168,6 +168,7 @@ int main()
     fclose(fp);
 
     fclose(fptr);
+    free_hashtable(ht);
 
     return 0;
 }

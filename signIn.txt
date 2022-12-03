@@ -1,6 +1,6 @@
 
-Host name: Joscandys-MacBook-Pro.local (IP: 127.0.0.1) going by user oo.oneal@stevens.edu failed to log in timestamp: Sat Dec  3 17:22:30 2022
+Host name: Joscandys-MacBook-Pro.local (IP: 127.0.0.1) going by user jjohns@stevens.edu failed to log in timestamp: Sat Dec  3 17:27:20 2022
 
-Host name: Joscandys-MacBook-Pro.local (IP: 127.0.0.1) going by user oo.oneal@stevens.edu failed to log in timestamp: Sat Dec  3 17:22:32 2022
+Host name: Joscandys-MacBook-Pro.local (IP: 127.0.0.1) going by user jjohns@stevens.edu failed to log in timestamp: Sat Dec  3 17:27:22 2022
 
-Host name: Joscandys-MacBook-Pro.local (IP: 127.0.0.1) going by user oo.oneal@stevens.edu succesfully logged in, timestamp : Sat Dec  3 17:22:33 2022
+Host name: Joscandys-MacBook-Pro.local (IP: 127.0.0.1) going by user jjohns@stevens.edu succesfully logged in, timestamp : Sat Dec  3 17:27:23 2022
