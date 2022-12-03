@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define CAPACITY 50000 // Size of the Hash Table
+#define CAPACITY 5000 // Size of the Hash Table
 
 /**
  * @brief creates a hash index given a string using the modulo operator and table size
@@ -50,7 +50,6 @@ struct HashTable
     // Contains an array of pointers
     // to items
     Ht_item **items;
-    LinkedList **overflow_buckets;
     int size;
     int count;
 };
@@ -66,13 +65,6 @@ Ht_item *create_item(char *key, char *value)
     strcpy(item->value, value);
 
     return item;
-}
-
-static LinkedList *allocate_list()
-{
-    // Allocates memory for a Linkedlist pointer
-    LinkedList *list = (LinkedList *)calloc(1, sizeof(LinkedList));
-    return list;
 }
 
 HashTable *create_table(int size)
@@ -166,7 +158,7 @@ void print_hashtable(HashTable *table)
     {
         if (table->items[i])
         {
-            printf("index:%d, key:%s, value:%s", i, table->items[i]->key, table->items[i]->value);
+            printf("index:%d key:%s value:%s", i, table->items[i]->key, table->items[i]->value);
 
             printf("\n");
         }

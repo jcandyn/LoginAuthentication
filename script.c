@@ -65,7 +65,7 @@ int main()
 
     // create a hash data structure
     /* Choose initial capacity of 500 */
-    HashTable *ht = create_table(50000);
+    HashTable *ht = create_table(CAPACITY);
 
     char *filename = "LoginsAndPasswords.txt";
     FILE *fp;
@@ -109,21 +109,19 @@ int main()
     char pass[25];
 
     printf("\nLogin:");
-    scanf("%s", &name);
+    scanf("%s", name);
 
     while (ht_search(ht, name) == NULL)
     {
         printf("\nusername is not in our records, try again:");
         printf("\nLogin:");
-        scanf("%s", &name);
+        scanf("%s", name);
     }
 
     printf("Password:");
-    scanf("%s", &pass);
+    scanf("%s", pass);
 
     int count = 0;
-    printf("length of actual %d", strlen(ht_search(ht, name)));
-    printf("length of entered %d", strlen(pass));
 
     // have user retry password attempt if the entered password exceeds the length of the actual password or if it is equal to in length but not the same value
     while (!((strncmp(ht_search(ht, name), pass, strlen(ht_search(ht, name)) - 2) == 0)) || (strlen(pass) != (strlen(ht_search(ht, name)) - 2)))
@@ -144,7 +142,7 @@ int main()
             printf("\nExceeded 3 Attempts. Account is locked!");
             exit(0);
         }
-        printf("\nFailed login! Please re-enter ");
+        printf("\nFailed login! Please re-enter: ");
 
         time_t rawtime;
         struct tm *timeinfo;
@@ -155,7 +153,7 @@ int main()
         fprintf(fptr, "\nHost name: %s (IP: %s) going by user %s failed to log in timestamp: %s", host, IP, name, asctime(timeinfo));
 
         printf("\nPassword:");
-        scanf("%s", &pass);
+        scanf("%s", pass);
         count++;
     }
 
