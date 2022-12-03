@@ -66,6 +66,7 @@ int main()
 
     char name[25];
     char pass[25];
+
     printf("\nLogin:");
     scanf("%s", &name);
     printf("Password:");
@@ -73,8 +74,10 @@ int main()
 
     int count = 0;
 
-    while (!(strncmp(ht_search(ht, name), pass, 6)) == 0)
+    // have user retry password attempt if the entered password exceeds the length of the actual password or if it is equal to in length but not the same value
+    while (!((strncmp(ht_search(ht, name), pass, strlen(ht_search(ht, name)) - 2) || (strlen(pass) != strlen(ht_search(ht, name)) - 2)) == 0))
     {
+
         if (count >= 2)
         {
             printf("\nExceeded 3 Attempts. Account is locked!");
